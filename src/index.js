@@ -23,7 +23,21 @@ dotenv.config({
         
     })
      
+// ### Poora flow ek baar
+// ```
+// App start hui
+//      ↓
+// .env file load karo (secrets ready karo)
+//      ↓
+// MongoDB se connect karo (connectDB)
+//      ↓
+// ✅ Connected → Server start karo (app.listen)
+//                     ↓
+//              Customers aa sakte hain!
 
+// ❌ Failed → Error print karo
+//                     ↓
+//              Server mat kholo
 
 
 

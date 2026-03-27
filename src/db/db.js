@@ -15,3 +15,14 @@ const connectDB = async () => {
 };
 
 export default connectDB;
+
+// ### Poora flow ek baar
+// ```
+// App start hoti hai
+//        ↓
+// connectDB() call hoti hai
+//        ↓
+// MongoDB URI + DB_NAME se connect karo
+//        ↓
+// ✅ Hua → Host print karo → App chalta rahe
+// ❌ Nahi hua → Error print karo → App band karo
