@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken"
 const userSchema = new Schema(
     {
         username: {
-            type: string,
+            type: String,
             required: true,
             unique: true,
             lowercase: true,
@@ -14,31 +14,24 @@ const userSchema = new Schema(
             index: true
         },
         email: {
-            type: string,
+            type: String,
             required: true,
             unique: true,
             lowercase: true,
             trim: true
         },
-        email: {
-            type: string,
-            required: true,
-            trim: true,
-            index: true
-        },
-        fullname: {
-            type: string,
+        fullName: {              // ✅ fullname → fullName
+            type: String,
             required: true,
             trim: true,
             index: true
         },
         avatar: {
-            type: string,  //cloudnary url use krenge
+            type: String,
             required: true,
         },
         coverImage: {
-            type: string,  //cloudnary url use krenge
-
+            type: String,
         },
         watchHistory: [
             {
@@ -47,16 +40,16 @@ const userSchema = new Schema(
             }
         ],
         password: {
-            type: string,
+            type: String,
             required: [true, "Password is required"]
         },
         refreshToken: {
-            type: string,
-            required: true,
+            type: String,        // ✅ required: true hata diya
         },
     },
     { timestamps: true }
 )
+
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();  // agr password change nhi hua to next() call kr do
 
