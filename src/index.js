@@ -2,9 +2,11 @@
 // make a file name db.js in db folder import here 
 
 //require("dotenv").config({path: "./env"})
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import connectDB from './db/db.js';
 import { DB_NAME } from './constants.js';
+import express from "express";
+const app = express();
 
 dotenv.config({
     path: './.env'  // dot lagao .env se pehle
@@ -19,7 +21,7 @@ dotenv.config({
         })
     })
     .catch((error) => {
-        console.log("MONGO db connection failed !!" , err);
+        console.log("MONGO db connection failed !!" , error);
         
     })
      

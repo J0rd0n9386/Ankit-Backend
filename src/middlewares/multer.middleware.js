@@ -11,3 +11,7 @@ const storage = multer.diskStorage({
 })
 
 export const upload = multer({ storage })
+
+//Multer ek middleware hai jo file uploads handle karta hai. Jab user koi image submit kare form se, toh browser raw binary data bhejta hai — Multer us data ko pakad ke teri local disk pe save karta hai.
+//Real flow:
+//User → Form submit (image) → Multer → /public/temp/file.jpg → Cloudinary upload
