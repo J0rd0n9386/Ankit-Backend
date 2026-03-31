@@ -15,7 +15,7 @@ dotenv.config({
 console.log(process.env.MONGODB_URI);
 connectDB()
 .then(() => {
-    app.listen(process.env.PORT || 8000, () => {
+    app.listen(process.env.PORT || 8000, () => {       // app bnaa ke yha import krke yha pr hi listen kr rhe haii
         console.log(`Server is running at port : ${process.env.PORT}`);
     })
 })

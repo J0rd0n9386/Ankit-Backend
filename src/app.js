@@ -1,8 +1,13 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import dotenv from "dotenv"
+//routes import
 import userRouter from "./routes/user.routes.js"
 
+dotenv.config({
+    path: './.env'
+})
 
 
 // Express ko call kiya aur ek app object ban gaya
@@ -20,7 +25,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })) // url encoded da
 app.use(express.static("public")) // static files ko handle krne ke liye
 app.use(cookieParser()) // cookies ko handle krne ke liye
 
-//routes import
+
 
 
 //routes declaration
