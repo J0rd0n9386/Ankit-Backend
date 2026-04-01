@@ -4,6 +4,22 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
+const generateAccessAndRefreshTokens = async(userid) => {
+    try {
+       const user =  await User.findById(userid)
+       const accessToken = user.generateAccessToken()
+       const refreshToken = user.generateRefreshToken()
+
+       user.refreshToken = refreshToken
+       await user.save({validateBeforeSave : false})
+
+     return{accessToken, refreshToken}
+
+    } catch (error) {
+        throw new ApiError(500, "Something went wrong while generating refresh and access token")
+    }
+}
+
 
 const registerUser = asyncHandler(async (req, res) => {
     // get user details from frontend
@@ -65,7 +81,7 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(500, "User creation failed")
     }
 
-    
+
 
     return res.status(201).json({
         message: "User created successfully",
@@ -74,12 +90,93 @@ const registerUser = asyncHandler(async (req, res) => {
 })
 
 const loginUser = asyncHandler(async (req, res) => {
-    res.status(200).json({
-        message: "User logged in successfully"
+    // req body se data le aao
+    // username or email
+    //  find user
+    // check if user exists
+    // check if password is correct
+    // generate access token and refresh token
+    // send cookies
+    // return res
+
+    const { email, username, password } = req.body
+
+    if (!username || !email) {
+        throw new ApiError(400, "username or email is required")
+    }
+
+    const user = await User.findOne({
+        $or: [{ username }, { email }]  //ya to username  mil jaaye ya email mil jaaye
     })
+
+    if(!user) {
+        throw new ApiError(404, "user does not exist")
+    }
+
+    const isPasswordvalid = await user.isPasswordCorrect(password)
+
+     if(!isPasswordvalid) {
+        throw new ApiError(401, "invalid user credentials")
+    }
+
+    //access token and access refresh token ko baar use krna hota hai 
+    // isliye isko seprate function me likhte hai and yha import krte hai
+
+    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id)
+
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken") 
+    // jo field hme nhi chahiye usko select me - lagake likh dete hai
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+        new ApiResponse(200, {
+            user: loggedInUser,
+            accessToken,
+            refreshToken
+        },
+        "User logged in successfully"
+    )
+    )
+
+    
+
+    
+
 })
 
-export { registerUser, loginUser }
+const logoutUser = asyncHandler(async (req, res) => {
+    User.findByIdAndUpdate(req.user._id, {
+        $set: {
+            refreshToken: ""
+        }
+    }, {
+        new: true
+    })
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(
+        new ApiResponse(200, {},
+        "User logged out successfully"
+    )
+    )
+})
+
+export { registerUser, loginUser, logoutUser}
 
 //  import { asyncHandler } from "../utils/asyncHandler.js";
 // import { ApiError } from "../utils/ApiError.js";
