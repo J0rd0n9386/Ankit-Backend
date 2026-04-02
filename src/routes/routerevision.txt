@@ -1,0 +1,31 @@
+Bilkul! Main isko bilkul aam bhasha mein ek real-life example se samjhata hoon.
+
+Maan lijiye Express ek bahut bada Hospital hai.
+
+1. app.js = Hospital ka Main Reception
+Jab aap hospital ke main gate se andar aate hain, toh sabse pehle Main Receptionist milti hai (app.js).
+Us receptionist ka kaam aapka ilaj karna nahi hai, uska kaam sirf rasta batana hai.
+
+Jab request aati hai: "Mujhe User se juda koi kaam hai."
+
+Receptionist (app.js) kehti hai: "Theek hai, aap Block A chale jao." (Yeh Block A aapka /api/v1/users hai).
+
+2. user.routes.js = Block A ka apna Reception
+Ab aap Block A pahunch gaye. Yeh aapka userRouter hai. Yahan board par alag-alag kamron (rooms) ke number likhe hain:
+
+Room 1: Naya account banwane ke liye (yeh hai /register)
+
+Room 2: Purane account mein aane ke liye (yeh hai /login)
+
+Room 3: Ghar wapas jane ke liye (yeh hai /logout)
+
+Final URL Kaise Banta Hai? (Pura Rasta)
+Agar aapko Login karna hai, toh aapka pura rasta (Full URL) kaise banega?
+
+Hospital ka pata: http://localhost:8000
+
+Main Reception ne bheja: /api/v1/users (Block A)
+
+Block A mein aap gaye: /login (Room 2)
+
+Pura Rasta (Final URL): http://localhost:8000/api/v1/users/login
