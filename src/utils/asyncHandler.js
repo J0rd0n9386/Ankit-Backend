@@ -1,11 +1,9 @@
-
 //promises se
 const asyncHandler = (requestHandler) => {
-    return (req, res, next) => {
-        Promise.resolve(requestHandler(req, res, next))
-            .catch((err) => next(err));
-    }
-}
+  return (req, res, next) => {
+    Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
+  };
+};
 
 export { asyncHandler };
 
@@ -15,8 +13,7 @@ export { asyncHandler };
 // it is a higher order function in function is passed as an argument
 //const asyncHandler = (func) => ()=>{} // it is also a higher order function in function is passed as an argument
 
-
-//async await se 
+//async await se
 
 // const asyncHandler = (func) => async (req, res, next)=>{
 //            try{
