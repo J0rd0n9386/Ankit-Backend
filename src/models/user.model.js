@@ -61,10 +61,10 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 }
 
 userSchema.methods.generateAccessToken = function () {
-    return jwt.sign(
+    return jwt.sign(   // ek naya token banana shuru kiya
         {
-            _id: this._id,
-            email: this.email,
+            _id: this._id,        //3 cheezein deni hoti hain: payload, secret, options
+            email: this.email,   // Yeh hai payload — token ke andar yeh data "lock" ho jaata hai
             username: this.username,
             fullName: this.fullName
         },
@@ -86,7 +86,9 @@ userSchema.methods.generateRefreshToken = function () {
         }
     )
 }
-userSchema.plugin(mongooseAggregatePaginate)
+userSchema.plugin(mongooseAggregatePaginate)  //plugin() — Mongoose schema mein extra features add karna
+//mongooseAggregatePaginate — yeh ek library hai jo pagination deti hai
+//Matlab ab User.aggregatePaginate() method available ho jaati hai
 
 
 
